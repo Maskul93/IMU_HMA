@@ -53,3 +53,18 @@ def integrate_ndim(y_prime=None, fs=None):
         y = np.empty(0)
     
     return y
+
+def differentiate_ndmi(y=None, fs=None):
+    '''Differentiate a signal using np.gradient function, accounting for dimensionality.'''
+    y_prime = np.zeros_like(y)
+
+    if y.ndim == 1:
+        y_prime = np.gradient(y, 1/fs)
+    elif y.ndim == 2:
+        for i in range(y.shape[1]):
+            y_prime[:, i] = np.gradient(y[:, i], 1/fs)
+    else:
+        print('More than two dimensions are still not handled. Returning an empty array')
+        y_prime = np.empty(0)
+    
+    return y_prime
