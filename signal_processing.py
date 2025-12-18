@@ -54,7 +54,7 @@ def integrate_ndim(y_prime=None, fs=None):
     
     return y
 
-def differentiate_ndmi(y=None, fs=None):
+def differentiate_ndim(y=None, fs=None):
     '''Differentiate a signal using np.gradient function, accounting for dimensionality.'''
     y_prime = np.zeros_like(y)
 
