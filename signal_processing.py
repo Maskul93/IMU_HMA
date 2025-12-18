@@ -3,6 +3,7 @@ from scipy.signal import butter, bessel, filtfilt
 from scipy.integrate import cumulative_trapezoid
 
 def bwfilt(sig=None, order=None, fc=None, fs=None, btype='low'):
+    '''Filters a signal with a Butterworth filter, accounting for dimensionality.'''
     # Initialize Butterworth filter with given parameters    
     b, a = butter(N=order, Wn=fc/(0.5*fs), btype=btype)
 
@@ -21,6 +22,7 @@ def bwfilt(sig=None, order=None, fc=None, fs=None, btype='low'):
     return sig_f
 
 def besfilt(sig=None, order=None, fc=None, fs=None, btype='low'):
+    '''Filters a signal with a Bessel filter, accounting for dimensionality.'''
     # Initialize Butterworth filter with given parameters    
     b, a = bessel(N=order, Wn=fc/(0.5*fs), btype=btype)
 
@@ -39,6 +41,7 @@ def besfilt(sig=None, order=None, fc=None, fs=None, btype='low'):
     return sig_f
 
 def integrate_ndim(y_prime=None, fs=None):
+    '''Integrates a signal using trapezoidal method, accounting for dimensionality.'''
     # Initialize time
     t = np.linspace(0, len(y_prime)/fs, len(y_prime))
 
@@ -55,13 +58,13 @@ def integrate_ndim(y_prime=None, fs=None):
     return y
 
 def differentiate_ndim(y=None, fs=None):
-    '''Differentiate a signal using np.gradient function, accounting for dimensionality.'''
+    '''Differentiates a signal using np.gradient function, accounting for dimensionality.'''
     y_prime = np.zeros_like(y)
 
-    if y.ndim == 1:
+    if y.ndim == 1: # Handling unidimensional array
         y_prime = np.gradient(y, 1/fs)
-    elif y.ndim == 2:
-        for i in range(y.shape[1]):
+    elif y.ndim == 2: # Handling bidimensional array (e.g. [N x 3])
+        for i in range(y.shape[1]): 
             y_prime[:, i] = np.gradient(y[:, i], 1/fs)
     else:
         print('More than two dimensions are still not handled. Returning an empty array')
