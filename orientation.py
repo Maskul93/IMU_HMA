@@ -56,7 +56,7 @@ def get_linear_acceleration(a_m=None, w_m=None, fs=None, g_global=None, convert_
         g_global = g_global * 9.81
     
     # Compute overall orientation over time
-    mad = Madgwick(gyr=w_m, acc=a_m, frequency=fs)
+    mad = Madgwick(gyr=w_m, acc=a_m, frequency=fs, q0=np.array([1, 0, 0, 0]))
     q = mad.Q # Orientation quaternion
 
     # Initialize acceleration of the inertial frame
@@ -65,7 +65,7 @@ def get_linear_acceleration(a_m=None, w_m=None, fs=None, g_global=None, convert_
     for k in range(q.shape[0]):
         R_IB = DCM()
         R_IB = R_IB.from_quaternion(q=q[k])
-        a_I[k] = (R_IB @ a_m[k]) - g_global
+        a_I[k] = (R_IB @ a_m[k]) # - g_global
 
     # Convert back to [g] units
     if convert_to_mss:
