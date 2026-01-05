@@ -76,7 +76,7 @@ def get_linear_acceleration(a_m=None, w_m=None, fs=None, g_global=None, convert_
 '''EULER ANGLES HERE'''
 def dcm2eul(R=None, seq=None):
     '''
-    Computes the Euler angles from a Rotation Matrix. 
+    Computes the Euler angles from a Rotation Matrix. Formulae are taken from https://ntrs.nasa.gov/api/citations/19770024290/downloads/19770024290.pdf
     '''
     # These are the 12 allowed sequences of rotations
     allowed_sequences = ('XYX', 'YXY', 'ZXZ', 'XZX', 'YZY', 'ZYZ', # Proper Euler Angles
