@@ -73,10 +73,18 @@ def get_linear_acceleration(a_m=None, w_m=None, fs=None, g_global=None, convert_
 
     return a_I
 
-'''EULER ANGLES HERE'''
+## -- Euler Angles computations -- ## 
 def dcm2eul(R=None, seq=None):
     '''
     Computes the Euler angles from a Rotation Matrix. Formulae are taken from https://ntrs.nasa.gov/api/citations/19770024290/downloads/19770024290.pdf
+    The sequence (`seq`) must be one among the 12 allowed ones, being either proper Euler Angles or Tait-Bryan Angles.
+    Angles are returned in **radians** [rad]. To convert them to degrees [deg], either use `np.degrees(eul)`, or multiply by 180/π.
+    Input:
+        - R (np.ndarray(3,3)): Rotation Matrix representing the orientation of the body relative to the frame.
+        - seq (str): Sequence of rotation axes. Must be all capital.
+
+    Returns:
+        - eul (np.array(3,) - measure unit [rad]): Euler Angles computed from `R` using `seq`.
     '''
     # These are the 12 allowed sequences of rotations
     allowed_sequences = ('XYX', 'YXY', 'ZXZ', 'XZX', 'YZY', 'ZYZ', # Proper Euler Angles
