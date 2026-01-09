@@ -4,3 +4,8 @@
 /Orientation/__pychache__
 /SignalProcessing/__pychache__
 /Tasks/__pychache__
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
