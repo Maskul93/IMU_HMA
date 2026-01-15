@@ -9,3 +9,5 @@
 __pycache__/
 *.py[cod]
 *$py.class
+SignalProcessing/__pycache__/__init__.cpython-311.pyc
+SignalProcessing/__pycache__/Filters.cpython-311.pyc
