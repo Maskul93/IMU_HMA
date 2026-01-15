@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from SignalProcessing.Filters import besfilt
 
-def get_transition_timings(acc=None, fs=None, cc=0, ap=2):
+def get_transition_timings(acc=None, fs=None, cc=0, ap=2, loc='thigh'):
     '''
     Finds the zero crossings from the jerk of AP and CC axes of thigh-worn accelerometer.
 
@@ -18,7 +18,11 @@ def get_transition_timings(acc=None, fs=None, cc=0, ap=2):
 
     j_cc = np.gradient(acc[:, cc], 1/fs)
     j_ap = np.gradient(acc[:, ap], 1/fs)
-    j = besfilt(j_cc + j_ap, 4, 1, fs)
+
+    if loc == 'thigh':
+        j = besfilt(j_cc + j_ap, 4, 1, fs)
+    elif loc == 'chest':
+        j = besfilt(j_cc, 4, 1, fs)
 
     # find zero-crossings
     zc = np.where(np.diff(np.sign(j)))[0]
