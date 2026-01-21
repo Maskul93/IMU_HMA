@@ -50,3 +50,28 @@ def differentiate_ndim(y=None, fs=None):
         y_prime = np.empty(0)
     
     return y_prime
+
+def resample_ndim(sig=None, fs_in=None, N_out=None):
+    '''Resamples a signal interpolating it to the number of required samples, accounting for dimensionality.
+
+    Inputs:
+        - sig (np.ndarray (N,M)): the original signal
+        - fs_in (float or int): original sampling frequency
+        - N_out (int): number of required samples
+
+    Outputs:
+        - sig_res (np.ndarray (N,M)): the resampled signal
+
+    '''
+    t_in = np.linspace(0, len(sig)/fs_in, len(sig))
+    t_out = np.linspace(0, len(sig)/fs_in, N_out)
+
+    if sig.ndim == 1:
+        sig_res = np.interp(t_out, t_in, sig)
+
+    elif sig.ndim == 2:
+        sig_res = np.zeros((N_out, sig.shape[-1]))
+        for i in range(sig.shape[-1]):
+            sig_res[:, i] = np.interp(t_out, t_in, sig[:, i])
+
+    return sig_res
